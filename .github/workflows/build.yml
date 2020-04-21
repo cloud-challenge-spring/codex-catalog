@@ -72,16 +72,17 @@ jobs:
         with:
           name: Package
           path: build/libs
-          
+
+      - name: get app version number
+          run: echo "::set-env name=PROJECT_VERSION::$(./gradlew project-version | grep "version:" | tr -d 'version:')"
+
       - name: Create and push Docker images
         run: |
-          projectVersion=$(./gradlew project-version | grep "version:" | tr -d 'version:')
-          
           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-          
+
           docker build -t codex-catalog .
-          docker tag codex-catalog ${{ secrets.DOCKER_USER }}/codex-catalog:$projectVersion_${{ github.sha }}
+          docker tag codex-catalog ${{ secrets.DOCKER_USER }}/codex-catalog:${{env.PROJECT_VERSION}}_${{ github.sha }}
           docker tag codex-catalog ${{ secrets.DOCKER_USER }}/codex-catalog:latest
-          docker push ${{ secrets.DOCKER_USER }}/codex-catalog:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USER }}/codex-catalog:${{env.PROJECT_VERSION}}_${{ github.sha }}
           docker push ${{ secrets.DOCKER_USER }}/codex-catalog:latest
       
