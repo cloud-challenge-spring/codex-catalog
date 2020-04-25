@@ -22,3 +22,18 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8080/eureka/
+
+
+---
+spring:
+  profiles: kubernetes
+
+  boot:
+    admin:
+      client:
+        url: http://localhost:8079
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8080/eureka/
