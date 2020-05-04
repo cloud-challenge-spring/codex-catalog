@@ -9,31 +9,13 @@ management:
     health:
       show-details: always
 
----
 spring:
-  profiles: dev
-
   boot:
     admin:
       client:
-        url: http://localhost:8079
+        url: http://admin-server:8079
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8080/eureka/
-
-
----
-spring:
-  profiles: kubernetes
-
-boot:
-  admin:
+  eureka:
     client:
-      url: http://admin-server:8079
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka-server:8080/eureka/
+      serviceUrl:
+        defaultZone: http://eureka-server:8080/eureka/
